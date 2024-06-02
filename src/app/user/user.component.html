@@ -1,0 +1,122 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h2 class="mt-4">Users List</h2>
+    </div>
+    <div class="col" style="align-content: center; text-align: end">
+      <button
+        type="button"
+        class="btn btn-success"
+        data-bs-toggle="modal"
+        data-bs-target="#exampleModal"
+        (click)="selectUser(null)"
+      >
+        New
+      </button>
+    </div>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of userService.getUsers()">
+        <td>{{ user.name }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+            (click)="selectUser(user)"
+          >
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          {{ isEditing ? "Edit User details for: " : "Add New User" }}
+          {{ selectedUser.name }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="resetForm()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="userName" class="form-label">Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="userName"
+              [(ngModel)]="selectedUser.name"
+              name="name"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="userEmail" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="userEmail"
+              [(ngModel)]="selectedUser.email"
+              name="email"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label for="userPhone" class="form-label">Phone</label>
+            <input
+              type="text"
+              class="form-control"
+              id="userPhone"
+              [(ngModel)]="selectedUser.phone"
+              name="phone"
+              required
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-dismiss="modal"
+          (click)="saveUser()"
+        >
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
